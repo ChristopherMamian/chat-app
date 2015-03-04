@@ -48,9 +48,22 @@
 			var $messageBox = $('#message');
 			var $chat = $('#chat');
 
+			$nickForm.submit(function(e){
+				e.preventDefault();
+				socket.emit('new user', $nickBox.val(), function(data){
+					if(data){
+						$('#nickWrap').hide();
+						$('#contentWrap').show();
+					} else {
+						$nickError.html('That username is already taken');
+					}
+				});
+				$nickBox.val('');
+			});
+
 			$messageForm.submit(function(e){
 				e.preventDefault();
-				socket.emit('send message', $messageBox.val());
+				socket.emit('send message', $messageBox.val()); 
 				$messageBox.val('');
 			});
 
